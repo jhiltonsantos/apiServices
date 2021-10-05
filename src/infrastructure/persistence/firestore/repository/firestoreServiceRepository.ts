@@ -23,10 +23,9 @@ export class FirestoreServiceRepository implements iServiceRepository{
         return {id: serviceId, title, description, value, date_register, deadline, status, comment} as Service;
     }
 
-    // TODO: refazer metodo updateService sem passar o id
     public async updateService(service: Service): Promise<Service> {
         const {id, title, description, value, date_register, deadline, status, comment} = service;
-        await db.collection('services').doc(id).update({id, title, description, value, date_register, deadline, status, comment});
+        await db.collection('services').doc(id.toString()).update({title, description, value, date_register, deadline, status, comment});
         return service as Service;
     }
 

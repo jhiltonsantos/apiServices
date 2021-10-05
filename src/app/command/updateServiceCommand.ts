@@ -9,7 +9,6 @@ export class UpdateServiceCommand {
     }
 
     public async execute(service: Service): Promise<Service> {
-        console.log(service);
         return await this.serviceRepository.updateService(service);
     }
 
