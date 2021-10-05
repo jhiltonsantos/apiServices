@@ -2,7 +2,6 @@ import express, { application } from "express";
 import "./src/infrastructure/persistence/firestore";
 import routes from "./src/presentation/routes/servicesRoutes";
 
-
 const app = express();
 
 app.use(express.json());

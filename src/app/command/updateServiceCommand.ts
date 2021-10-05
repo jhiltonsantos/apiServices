@@ -1,5 +1,16 @@
-export class UpdateServiceCommand {
-    constructor(public id: string, public name: string, public description: string, public price: number) { }
-}
+import { Service } from "../../domain/entity/service";
+import { iServiceRepository } from "../repository/iServiceRepository";
 
-// FALTA IMPLEMENTAR
+export class UpdateServiceCommand {
+    private serviceRepository: iServiceRepository;
+
+    constructor(serviceRepository: iServiceRepository) {
+        this.serviceRepository = serviceRepository;
+    }
+
+    public async execute(service: Service): Promise<Service> {
+        console.log(service);
+        return await this.serviceRepository.updateService(service);
+    }
+
+}

@@ -12,5 +12,3 @@ export class CreateServiceCommand {
         return await this.serviceRepository.createService(service);
     }
 }
-
-// FALTA IMPLEMENTAR

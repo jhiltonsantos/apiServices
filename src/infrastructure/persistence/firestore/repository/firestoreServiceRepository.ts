@@ -4,20 +4,17 @@ import { Service } from "../../../../domain/entity/service";
 
 export class FirestoreServiceRepository implements iServiceRepository{
     
-    // TODO: implementar os metodos do firebase para atualizar, atualizar o status e o comentario, e deletar
-    
     public async allServices(): Promise<Service[]> {
         const serviceRef = await db.collection('services').get();
         const services = serviceRef.docs.map(doc => ({id: doc.id, ...doc.data()}));
         return services as Service[];
     }
 
-    public async getServiceById(id: number): Promise<Service> {
+    public async getServiceById(id: string): Promise<Service> {
         const serviceRef = db.collection('services').doc(id.toString());
         const service = (await serviceRef.get()).data();
         return service as Service;
     }
-
 
     public async createService(service: Service): Promise<Service> {
         const {title, description, value, date_register, deadline, status, comment} = service;
@@ -26,16 +23,25 @@ export class FirestoreServiceRepository implements iServiceRepository{
         return {id: serviceId, title, description, value, date_register, deadline, status, comment} as Service;
     }
 
-    updateService(service: Service): Promise<Service> {
-        throw new Error("Method not implemented.");
+    // TODO: refazer metodo updateService sem passar o id
+    public async updateService(service: Service): Promise<Service> {
+        const {id, title, description, value, date_register, deadline, status, comment} = service;
+        await db.collection('services').doc(id).update({id, title, description, value, date_register, deadline, status, comment});
+        return service as Service;
     }
-    updateServiceStatus(id: number, status: string): Promise<Service> {
-        throw new Error("Method not implemented.");
+
+    public async updateServiceStatus(id: string, status: string): Promise<Service> {
+        await db.collection('services').doc(id.toString()).update({status});
+        return {id, status} as Service;
     }
-    updateServiceComment(id: number, comment: string): Promise<Service> {
-        throw new Error("Method not implemented.");
+
+    public async updateServiceComment(id: string, comment: string): Promise<Service> {
+        await db.collection('services').doc(id).update({comment});
+        return {id, comment} as Service;
     }
-    deleteService(id: number): Promise<Service> {
-        throw new Error("Method not implemented.");
+
+    public async deleteService(id: string): Promise<Service> {
+        await db.collection('services').doc(id).delete();
+        return {id} as Service;
     }
 }
