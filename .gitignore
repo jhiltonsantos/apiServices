@@ -1,6 +1,7 @@
 node_modules/
 .DS_Store
 *apiservice-adminsdk.json
+*.json
 
 # Miscellaneous
 *.class
