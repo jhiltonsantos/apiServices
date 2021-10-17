@@ -1,6 +1,8 @@
 import 'package:api_service_app/controllers/services_controller.dart';
 import 'package:api_service_app/core/layout_app.dart';
 import 'package:api_service_app/models/service_model.dart';
+import 'package:api_service_app/widgets/button_save_widget.dart';
+import 'package:api_service_app/widgets/text_add_field_widget.dart';
 import 'package:flutter/material.dart';
 
 enum Status { aberto, fechado, cancelado }
@@ -36,104 +38,39 @@ class _AddServicePageState extends State<AddServicePage> {
         child: ListView(
           padding: const EdgeInsets.all(10),
           children: <Widget>[
-            Container(
-                margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-                child: Column(children: <Widget>[
-                  const Text('Titulo'),
-                  TextFormField(
-                    controller: _titleController,
-                    decoration: const InputDecoration(
-                      hintText: 'Titulo',
-                    ),
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Por favor, digite um titulo';
-                      }
-                      return null;
-                    },
-                  ),
-                ])),
-            Container(
-              margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-              child: Column(children: <Widget>[
-                const Text('Descrição'),
-                TextFormField(
-                  controller: _descriptionController,
-                  decoration: const InputDecoration(
-                    hintText: 'Descrição',
-                  ),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Por favor, digite uma descrição';
-                    }
-                    return null;
-                  },
-                ),
-              ]),
+            TextAddField(
+              titleController: _titleController,
+              title: 'Título',
             ),
-            Container(
-                margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-                child: Column(
-                  children: [
-                    const Text('Valor'),
-                    TextFormField(
-                      controller: _valueController,
-                      decoration: const InputDecoration(
-                        hintText: 'Valor',
-                      ),
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Por favor, digite um valor';
-                        }
-                        return null;
-                      },
-                    ),
-                  ],
-                )),
-            Container(
-                margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-                child: Column(
-                  children: [
-                    const Text('Data'),
-                    TextFormField(
-                      controller: _dateController,
-                      decoration: const InputDecoration(
-                        hintText: 'Data',
-                      ),
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Por favor, digite uma data';
-                        }
-                        return null;
-                      },
-                    ),
-                  ],
-                )),
-            Container(
-              margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-              child: Column(
-                children: [
-                  const Text('Prazo'),
-                  TextFormField(
-                    controller: _deadlineController,
-                    decoration: const InputDecoration(
-                      hintText: 'Prazo',
-                    ),
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Por favor, digite um prazo';
-                      }
-                      return null;
-                    },
-                  ),
-                ],
-              ),
+            TextAddField(
+              titleController: _descriptionController,
+              title: 'Descrição',
+            ),
+            TextAddField(
+              titleController: _valueController,
+              title: 'Valor',
+            ),
+            TextAddField(
+              titleController: _dateController,
+              title: 'Data',
+            ),
+            TextAddField(
+              titleController: _deadlineController,
+              title: 'Prazo',
             ),
             Container(
               margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
               child: Column(
                 children: <Widget>[
-                  const Text('Status'),
+                  const Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      'Status',
+                      style: TextStyle(
+                        fontSize: 18.0,
+                      ),
+                    ),
+                  ),
                   ListTile(
                     title: const Text('Aberto'),
                     leading: Radio(
@@ -176,51 +113,26 @@ class _AddServicePageState extends State<AddServicePage> {
                 ],
               ),
             ),
-            Container(
-              margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-              child: Column(
-                children: <Widget>[
-                  const Text('Comentário'),
-                  TextFormField(
-                    controller: _commentController,
-                    decoration: const InputDecoration(
-                      hintText: 'Comentário',
-                    ),
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Por favor, digite um comentário';
-                      }
-                      return null;
-                    },
-                  ),
-                ],
-              ),
+            TextAddField(
+              titleController: _commentController,
+              title: 'Comentário',
             ),
-            Container(
-              margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-              child: Column(
-                children: <Widget>[
-                  ElevatedButton(
-                    onPressed: () {
-                      api.createService(Service(
-                        id: '',
-                        title: _titleController.text,
-                        description: _descriptionController.text,
-                        value: _valueController.text,
-                        dateRegister: _dateController.text,
-                        deadline: _deadlineController.text,
-                        status: statusController,
-                        comment: _commentController.text,
-                      ));
-                      Navigator.pop(context);
-                    },
-                    child: const Text(
-                      'Salvar',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ],
-              ),
+            const SizedBox(height: 20.0),
+            ButtonSave(
+              title: 'Salvar',
+              onPressed: () {
+                api.createService(Service(
+                  id: '',
+                  title: _titleController.text,
+                  description: _descriptionController.text,
+                  value: _valueController.text,
+                  dateRegister: _dateController.text,
+                  deadline: _deadlineController.text,
+                  status: statusController,
+                  comment: _commentController.text,
+                ));
+                Navigator.pop(context);
+              },
             ),
           ],
         ),
